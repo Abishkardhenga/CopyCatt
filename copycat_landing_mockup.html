@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CopyCatt.fun — Copy the Best. Skip the Rest.</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #080808;
+    --surface: #111111;
+    --card: #181818;
+    --card2: #202020;
+    --lime: #AAFF00;
+    --lime-dim: #7DBF00;
+    --lime-glow: rgba(170,255,0,0.15);
+    --lime-glow2: rgba(170,255,0,0.06);
+    --white: #F2F2F2;
+    --muted: #888;
+    --dimmer: #555;
+    --border: rgba(255,255,255,0.07);
+    --border-lime: rgba(170,255,0,0.3);
+    --red: #FF4C4C;
+    --green: #AAFF00;
+    --mono: 'Space Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--void);
+    color: var(--white);
+    font-family: var(--display);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--lime); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 0.2s; font-weight: 500; letter-spacing: 0.02em; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--lime); color: #000; font-family: var(--display);
+    font-size: 13px; font-weight: 700; padding: 10px 22px;
+    border: none; border-radius: 6px; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.02em;
+  }
+  .nav-cta:hover { background: #c8ff33; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(170,255,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(170,255,0,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(170,255,0,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--lime-glow2);
+    border: 1px solid var(--border-lime);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px; font-weight: 500; color: var(--lime);
+    margin-bottom: 2rem;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--lime); border-radius: 50%; animation: pulse 1.5s infinite; }
+  .hero-h1 {
+    font-size: clamp(52px, 9vw, 110px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero-h1 em { font-style: normal; color: var(--lime); }
+  .hero-sub {
+    font-size: 17px; color: var(--muted); max-width: 520px;
+    line-height: 1.7; margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+    font-weight: 400;
+  }
+  .hero-actions {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--lime); color: #000;
+    font-family: var(--display); font-size: 15px; font-weight: 700;
+    padding: 15px 32px; border: none; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s; letter-spacing: -0.01em;
+  }
+  .btn-primary:hover { background: #c8ff33; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(170,255,0,0.25); }
+  .btn-ghost {
+    background: transparent; color: var(--white);
+    font-family: var(--display); font-size: 15px; font-weight: 600;
+    padding: 15px 32px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+  .hero-social-proof {
+    margin-top: 2rem;
+    font-size: 13px; color: var(--dimmer);
+    font-family: var(--mono);
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .hero-social-proof span { color: var(--lime); }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+  }
+  .ticker-track {
+    display: flex; gap: 0; white-space: nowrap;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0 3rem;
+    font-size: 13px; font-family: var(--mono); color: var(--muted);
+    border-right: 1px solid var(--border);
+  }
+  .ticker-item .val { color: var(--lime); font-weight: 700; }
+  .ticker-dot { width: 4px; height: 4px; background: var(--lime); border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 7rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
+    color: var(--lime); text-transform: uppercase; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--lime-dim); }
+  .section-title { font-size: clamp(32px, 5vw, 52px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 1rem; }
+  .section-sub { font-size: 16px; color: var(--muted); max-width: 480px; line-height: 1.7; font-weight: 400; }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px; margin-top: 4rem;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+  .how-card {
+    background: var(--surface); padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: background 0.2s;
+  }
+  .how-card:hover { background: var(--card); }
+  .how-num {
+    font-family: var(--mono); font-size: 11px; color: var(--lime);
+    letter-spacing: 0.1em;
+  }
+  .how-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+  .how-card p { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 400; }
+
+  /* ── FEATURES ── */
+  .features-section { background: var(--surface); }
+  .feat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px; margin-top: 4rem;
+  }
+  .feat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.75rem;
+    transition: all 0.2s;
+  }
+  .feat-card:hover { border-color: var(--border-lime); transform: translateY(-3px); }
+  .feat-icon {
+    width: 40px; height: 40px; background: var(--lime-glow);
+    border: 1px solid var(--border-lime); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 1rem;
+  }
+  .feat-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .feat-card p { font-size: 13px; color: var(--muted); line-height: 1.7; font-weight: 400; }
+
+  /* ── TRADERS LEADERBOARD ── */
+  .traders-section {}
+  .traders-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+  .trader-table {
+    width: 100%; border-collapse: collapse;
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .trader-table thead tr { background: var(--card); border-bottom: 1px solid var(--border); }
+  .trader-table th {
+    padding: 12px 16px; text-align: left;
+    font-size: 11px; font-family: var(--mono); color: var(--dimmer);
+    letter-spacing: 0.08em; font-weight: 400;
+  }
+  .trader-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .trader-table tbody tr:last-child { border-bottom: none; }
+  .trader-table tbody tr:hover { background: var(--card); }
+  .trader-table td { padding: 14px 16px; font-size: 13px; }
+  .trader-rank { font-family: var(--mono); color: var(--dimmer); font-size: 12px; }
+  .trader-name { font-weight: 700; font-size: 14px; }
+  .trader-handle { font-size: 11px; color: var(--dimmer); font-family: var(--mono); }
+  .pnl-pos { color: var(--lime); font-family: var(--mono); font-weight: 700; }
+  .pnl-neg { color: var(--red); font-family: var(--mono); font-weight: 700; }
+  .risk-bar-wrap { width: 80px; height: 4px; background: var(--border); border-radius: 2px; }
+  .risk-bar { height: 4px; border-radius: 2px; background: var(--lime); }
+  .copy-btn-sm {
+    background: var(--lime-glow); color: var(--lime);
+    border: 1px solid var(--border-lime); border-radius: 6px;
+    padding: 6px 14px; font-size: 12px; font-family: var(--display); font-weight: 700;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .copy-btn-sm:hover { background: var(--lime); color: #000; }
+
+  /* ── VS ── */
+  .vs-section { background: var(--surface); }
+  .vs-grid {
+    display: grid; grid-template-columns: 1fr 80px 1fr;
+    gap: 0; margin-top: 3rem;
+    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+  }
+  .vs-col { padding: 0; }
+  .vs-col-head {
+    padding: 1.5rem; text-align: center;
+    font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
+    border-bottom: 1px solid var(--border);
+  }
+  .vs-col-head.cat { background: var(--lime-glow2); color: var(--lime); }
+  .vs-col-head.old { background: var(--card); color: var(--muted); }
+  .vs-col-head.mid { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .vs-row-item {
+    padding: 1rem 1.5rem; font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .vs-row-item:last-child { border-bottom: none; }
+  .vs-row-item.cat { color: var(--lime); gap: 8px; }
+  .vs-row-item.cat::before { content: '✓'; color: var(--lime); font-weight: 700; flex-shrink: 0; }
+  .vs-row-item.old { color: var(--muted); }
+  .vs-row-item.old::before { content: '✗'; color: var(--red); font-weight: 700; flex-shrink: 0; margin-right: 8px; }
+  .vs-mid {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-family: var(--mono); color: var(--dimmer);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+  }
+  .vs-mid:last-child { border-bottom: none; }
+
+  /* ── TESTIMONIALS ── */
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px; margin-top: 3.5rem;
+  }
+  .testi-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: border-color 0.2s;
+  }
+  .testi-card:hover { border-color: rgba(170,255,0,0.15); }
+  .testi-stars { color: var(--lime); font-size: 13px; letter-spacing: 2px; }
+  .testi-text { font-size: 14px; color: var(--white); line-height: 1.7; font-weight: 400; font-style: italic; }
+  .testi-author { font-size: 12px; font-family: var(--mono); color: var(--dimmer); margin-top: auto; }
+
+  /* ── WAITLIST ── */
+  .waitlist-section {
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .waitlist-glow {
+    position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(170,255,0,0.07) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .waitlist-section .section-label { justify-content: center; }
+  .waitlist-section .section-label::after { display: none; }
+  .waitlist-section .section-title { text-align: center; }
+  .waitlist-sub { font-size: 16px; color: var(--muted); max-width: 440px; margin: 0 auto 2.5rem; line-height: 1.7; font-weight: 400; }
+  .waitlist-form {
+    display: flex; gap: 10px; max-width: 480px; margin: 0 auto;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .waitlist-input {
+    flex: 1; min-width: 220px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 18px;
+    color: var(--white); font-family: var(--display); font-size: 14px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .waitlist-input:focus { border-color: var(--border-lime); }
+  .waitlist-input::placeholder { color: var(--dimmer); }
+  .waitlist-note { font-size: 12px; color: var(--dimmer); margin-top: 1rem; font-family: var(--mono); }
+  .waitlist-count {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 1.5rem;
+    font-family: var(--mono); font-size: 13px; color: var(--muted);
+  }
+  .waitlist-count span { color: var(--lime); font-weight: 700; }
+
+  /* ── FAQ ── */
+  .faq-section { background: var(--surface); }
+  .faq-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    gap: 1px; margin-top: 3.5rem;
+    background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+  }
+  .faq-item {
+    background: var(--surface); padding: 1.75rem 2rem;
+  }
+  .faq-q { font-size: 15px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.2px; }
+  .faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 400; }
+
+  /* ── CAT SVG ── */
+  .cat-container {
+    position: relative; display: inline-block;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.05s ease both;
+  }
+  .cat-svg { width: 120px; height: 120px; filter: drop-shadow(0 0 40px rgba(170,255,0,0.4)); }
+  .cat-ring {
+    position: absolute; inset: -12px;
+    border: 1px solid var(--border-lime);
+    border-radius: 50%;
+    animation: spin 12s linear infinite;
+  }
+  .cat-ring::after {
+    content: ''; position: absolute;
+    width: 8px; height: 8px;
+    background: var(--lime); border-radius: 50%;
+    top: 50%; right: -4px; transform: translateY(-50%);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
+  .footer-logo span { color: var(--lime); }
+  .footer-copy { font-size: 12px; color: var(--dimmer); font-family: var(--mono); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes eyeGlow { 0%, 100% { filter: drop-shadow(0 0 30px rgba(170,255,0,0.35)); } 50% { filter: drop-shadow(0 0 60px rgba(170,255,0,0.7)); } }
+  .cat-svg { animation: eyeGlow 2.5s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Copy<span>Catt</span>.fun</a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#traders">Traders</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="nav-cta">Join Waitlist</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="cat-container">
+    <div class="cat-ring"></div>
+    <svg class="cat-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- body -->
+      <ellipse cx="100" cy="140" rx="70" ry="45" fill="#0A0A0A"/>
+      <!-- head -->
+      <ellipse cx="100" cy="90" rx="58" ry="55" fill="#0A0A0A"/>
+      <!-- ears -->
+      <polygon points="55,48 42,18 72,42" fill="#0A0A0A"/>
+      <polygon points="145,48 158,18 128,42" fill="#0A0A0A"/>
+      <!-- ear inner -->
+      <polygon points="55,46 46,24 68,42" fill="#1a1a1a"/>
+      <polygon points="145,46 154,24 132,42" fill="#1a1a1a"/>
+      <!-- paws over ledge -->
+      <rect x="30" y="152" width="40" height="22" rx="10" fill="#0A0A0A"/>
+      <rect x="130" y="152" width="40" height="22" rx="10" fill="#0A0A0A"/>
+      <!-- eyes glow -->
+      <ellipse cx="78" cy="90" rx="16" ry="14" fill="rgba(170,255,0,0.15)"/>
+      <ellipse cx="122" cy="90" rx="16" ry="14" fill="rgba(170,255,0,0.15)"/>
+      <ellipse cx="78" cy="90" rx="11" ry="10" fill="#AAFF00"/>
+      <ellipse cx="122" cy="90" rx="11" ry="10" fill="#AAFF00"/>
+      <ellipse cx="78" cy="90" rx="5" ry="8" fill="#000"/>
+      <ellipse cx="122" cy="90" rx="5" ry="8" fill="#000"/>
+      <!-- shine -->
+      <circle cx="74" cy="86" r="2.5" fill="#fff" opacity="0.8"/>
+      <circle cx="118" cy="86" r="2.5" fill="#fff" opacity="0.8"/>
+      <!-- nose -->
+      <polygon points="100,104 96,110 104,110" fill="#333"/>
+      <!-- smile -->
+      <path d="M94,112 Q100,118 106,112" stroke="#444" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- ledge -->
+      <rect x="0" y="168" width="200" height="4" fill="#0A0A0A" opacity="0.3"/>
+    </svg>
+  </div>
+
+  <div class="hero-badge">EARLY ACCESS OPEN NOW</div>
+  <h1 class="hero-h1">Copy the <em>best.</em><br>Skip the rest.</h1>
+  <p class="hero-sub">Automatically mirror the trades of the top 1% of crypto traders — in real time, with full risk control. No charts. No stress. Just results.</p>
+  <div class="hero-actions">
+    <button class="btn-primary">Join the Waitlist — It's Free</button>
+    <button class="btn-ghost">See Top Traders →</button>
+  </div>
+  <p class="hero-social-proof"><span>2,847</span> traders on the list · Early access closes soon</p>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="ticker-dot"></span>Mirrored Volume <span class="val">$4.2M</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Top Trader 90d <span class="val">+312%</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Waitlist <span class="val">2,847</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Avg Copy Return <span class="val">+68%</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Top 10 Liquidations <span class="val">Zero</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Traders Verified <span class="val">On-chain</span></div>
+    <!-- repeat for seamless loop -->
+    <div class="ticker-item"><span class="ticker-dot"></span>Mirrored Volume <span class="val">$4.2M</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Top Trader 90d <span class="val">+312%</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Waitlist <span class="val">2,847</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Avg Copy Return <span class="val">+68%</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Top 10 Liquidations <span class="val">Zero</span></div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Traders Verified <span class="val">On-chain</span></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Three steps.<br>That's all.</h2>
+    <p class="section-sub">No tutorials, no chart reading, no anxiety. Just connect, configure, and let the cat do the work.</p>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01 / Browse</div>
+        <h3>Pick your trader</h3>
+        <p>Filter by ROI, risk score, win rate, and trade frequency. See their full on-chain history before risking a single dollar.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02 / Configure</div>
+        <h3>Set your limits</h3>
+        <p>Choose allocation, set a max drawdown, and go live with one click. The risk engine protects your capital automatically.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03 / Earn</div>
+        <h3>Sit back & watch</h3>
+        <p>When they enter, you enter. When they exit, you exit. Profits hit your wallet — no babysitting required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERBOARD PREVIEW -->
+<section id="traders" style="background: var(--surface);">
+  <div class="container">
+    <div class="traders-header">
+      <div>
+        <div class="section-label">Leaderboard</div>
+        <h2 class="section-title" style="font-size: clamp(28px,4vw,40px);">Top traders.<br>Verified on-chain.</h2>
+      </div>
+      <div style="font-size:12px; color:var(--dimmer); font-family:var(--mono); text-align:right;">Updated every 15 min<br><span style="color:var(--lime);">● Live</span></div>
+    </div>
+    <table class="trader-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Trader</th>
+          <th>30d ROI</th>
+          <th>Win Rate</th>
+          <th>Trades</th>
+          <th>Risk</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="trader-rank">#1</td>
+          <td><div class="trader-name">alpha_whale</div><div class="trader-handle">@alpha_whale</div></td>
+          <td class="pnl-pos">+312%</td>
+          <td class="pnl-pos">84%</td>
+          <td style="font-family:var(--mono); font-size:13px;">147</td>
+          <td><div class="risk-bar-wrap"><div class="risk-bar" style="width:30%;"></div></div></td>
+          <td><button class="copy-btn-sm">Copy</button></td>
+        </tr>
+        <tr>
+          <td class="trader-rank">#2</td>
+          <td><div class="trader-name">scalp_god</div><div class="trader-handle">@scalp_god_eth</div></td>
+          <td class="pnl-pos">+218%</td>
+          <td class="pnl-pos">79%</td>
+          <td style="font-family:var(--mono); font-size:13px;">312</td>
+          <td><div class="risk-bar-wrap"><div class="risk-bar" style="width:50%; background:#AAFF00;"></div></div></td>
+          <td><button class="copy-btn-sm">Copy</button></td>
+        </tr>
+        <tr>
+          <td class="trader-rank">#3</td>
+          <td><div class="trader-name">degen_sigma</div><div class="trader-handle">@degen_sigma</div></td>
+          <td class="pnl-pos">+189%</td>
+          <td class="pnl-pos">71%</td>
+          <td style="font-family:var(--mono); font-size:13px;">89</td>
+          <td><div class="risk-bar-wrap"><div class="risk-bar" style="width:65%; background:#FFD700;"></div></div></td>
+          <td><button class="copy-btn-sm">Copy</button></td>
+        </tr>
+        <tr>
+          <td class="trader-rank">#4</td>
+          <td><div class="trader-name">cryptozen</div><div class="trader-handle">@cryptozen_pro</div></td>
+          <td class="pnl-pos">+142%</td>
+          <td class="pnl-pos">76%</td>
+          <td style="font-family:var(--mono); font-size:13px;">203</td>
+          <td><div class="risk-bar-wrap"><div class="risk-bar" style="width:40%;"></div></div></td>
+          <td><button class="copy-btn-sm">Copy</button></td>
+        </tr>
+        <tr>
+          <td class="trader-rank">#5</td>
+          <td><div class="trader-name">vol_hunter</div><div class="trader-handle">@vol_hunter_btc</div></td>
+          <td class="pnl-pos">+98%</td>
+          <td class="pnl-pos">68%</td>
+          <td style="font-family:var(--mono); font-size:13px;">441</td>
+          <td><div class="risk-bar-wrap"><div class="risk-bar" style="width:55%; background:#FFD700;"></div></div></td>
+          <td><button class="copy-btn-sm">Copy</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px; color:var(--dimmer); font-family:var(--mono); margin-top:1rem; text-align:center;">All PnL data pulled directly from on-chain transactions. No self-reporting. No screenshots.</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Built different.<br>For a reason.</h2>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">⚡</div>
+        <h4>Millisecond mirroring</h4>
+        <p>Trades execute within milliseconds of the master — not delayed signals. Your entry price matches theirs.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔍</div>
+        <h4>On-chain verification</h4>
+        <p>Every return is linked to a public wallet. The crypto crowd can verify. That's why we don't need to brag.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🛡</div>
+        <h4>Smart risk engine</h4>
+        <p>Set your max drawdown. When limits are hit, copying pauses automatically. Sleep soundly.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔑</div>
+        <h4>Non-custodial</h4>
+        <p>Your keys, your funds. We use read-only APIs or smart contract mirrors. We never touch your assets.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">👻</div>
+        <h4>Ghost mode</h4>
+        <p>Top traders hide their moves for 5 minutes post-execution — anti-front-running built in.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📊</div>
+        <h4>Weekly paw report</h4>
+        <p>Auto-generated weekly summary of every trade, every return. Shareable cards for X included.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VS -->
+<section class="vs-section">
+  <div class="container">
+    <div class="section-label">Comparison</div>
+    <h2 class="section-title">The old way<br>is broken.</h2>
+    <div class="vs-grid">
+      <div class="vs-col">
+        <div class="vs-col-head cat">CopyCatt</div>
+        <div class="vs-row-item cat">Trades in milliseconds</div>
+        <div class="vs-row-item cat">Verified on-chain PnL</div>
+        <div class="vs-row-item cat">Zero learning curve</div>
+        <div class="vs-row-item cat">Automated risk caps</div>
+        <div class="vs-row-item cat">Non-custodial — your keys</div>
+      </div>
+      <div class="vs-col">
+        <div class="vs-col-head mid"></div>
+        <div class="vs-mid">vs</div>
+        <div class="vs-mid">vs</div>
+        <div class="vs-mid">vs</div>
+        <div class="vs-mid">vs</div>
+        <div class="vs-mid">vs</div>
+      </div>
+      <div class="vs-col">
+        <div class="vs-col-head old">Old way</div>
+        <div class="vs-row-item old">Manual entry — often late</div>
+        <div class="vs-row-item old">Twitter screenshots</div>
+        <div class="vs-row-item old">6 months of chart study</div>
+        <div class="vs-row-item old">Margin call at 3am</div>
+        <div class="vs-row-item old">Deposit required, trust us bro</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="container">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">They copied.<br>They won.</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I was down 40% trying to trade on my own. Three months copying @alpha_whale and I'm finally green. This thing actually works."</p>
+        <div class="testi-author">@defi_dan · 2.1k followers</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Set it up Sunday night. By Monday morning it had already made 4 trades. I literally did nothing. I'm obsessed."</p>
+        <div class="testi-author">@krypto_kate · 890 followers</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The risk cap feature is everything. I told it 5% max and it has respected that every single time. Feels safe for the first time."</p>
+        <div class="testi-author">@pragmatic_pete · 4.2k followers</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I've tried 4 copy trading platforms. This is the first where trades execute at the right price. The speed is genuinely insane."</p>
+        <div class="testi-author">@scalp_samira · 7.8k followers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist-section" id="waitlist">
+  <div class="waitlist-glow"></div>
+  <div class="container" style="position:relative; z-index:1;">
+    <div class="section-label" style="justify-content:center;">Early Access</div>
+    <h2 class="section-title" style="text-align:center; font-size:clamp(38px,6vw,72px);">The cat's out<br>of the bag.</h2>
+    <p class="waitlist-sub">Early access spots are limited. Be first to copy the most profitable traders before everyone else. No credit card. No commitment. Just your edge.</p>
+    <div class="waitlist-count"><span id="count">2,847</span> traders already on the list</div>
+    <div class="waitlist-form">
+      <input class="waitlist-input" type="email" placeholder="your@email.com">
+      <button class="btn-primary">Claim My Early Access Spot</button>
+    </div>
+    <p class="waitlist-note">Refer 3 friends → skip the line · Early members get 0% performance fees</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">You asked.<br>We answered.</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q">Is my money safe?</div>
+        <div class="faq-a">Your funds stay in your own wallet. We use read-only API keys or smart contract mirrors — we never take custody of your assets.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How are traders verified?</div>
+        <div class="faq-a">All traders are verified via on-chain PnL data. No screenshots, no self-reported returns. What you see actually happened.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I lose more than I put in?</div>
+        <div class="faq-a">No. Our risk engine lets you set a maximum drawdown. Once hit, copying pauses automatically. You can never exceed your defined limit.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How much does it cost?</div>
+        <div class="faq-a">Early access is free. We take a small performance fee — only when you profit. If you don't make money, we don't charge. Ever.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Which exchanges are supported?</div>
+        <div class="faq-a">We support Binance, Bybit, OKX, and major DEXs on launch. More chains and CEXs are coming in Q2.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">When does it launch?</div>
+        <div class="faq-a">We're onboarding early access users now. Join the waitlist for access before public launch — plus a referral bonus for each friend you bring in.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Copy<span>Catt</span>.fun</div>
+  <div class="footer-copy">© 2025 CopyCatt · Not financial advice · Trade responsibly</div>
+</footer>
+
+<script>
+  // Animated count ticker
+  let base = 2847;
+  setInterval(() => {
+    base += Math.floor(Math.random() * 3);
+    const el = document.getElementById('count');
+    if (el) el.textContent = base.toLocaleString();
+  }, 4000);
+
+  // Subtle scroll fade-in for sections
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.how-card, .feat-card, .testi-card, .faq-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
