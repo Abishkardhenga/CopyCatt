@@ -4,10 +4,8 @@ import { useEffect, useState } from "react"
 
 export function CursorGlow() {
   const [position, setPosition] = useState({ x: -1000, y: -1000 })
-  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    setIsClient(true)
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY })
     }
@@ -15,8 +13,6 @@ export function CursorGlow() {
     window.addEventListener("mousemove", handleMouseMove, { passive: true })
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
-
-  if (!isClient) return null
 
   return (
     <div

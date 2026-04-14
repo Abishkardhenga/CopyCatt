@@ -1,56 +1,70 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 
-import { CatMark } from "@/components/landing/ui/cat-mark"
-import { Container } from "@/components/landing/ui/container"
-import { LimeButton } from "@/components/landing/ui/lime-button"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
-const navLinks = [
-  { label: "How it works", href: "#how" },
-  { label: "Features", href: "#features" },
-  { label: "Comparison", href: "#comparison" },
-  { label: "FAQ", href: "#faq" },
+interface NavLink {
+  label: string
+  href: string
+  isExternal?: boolean
+}
+
+const navLinks: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
 ]
 
 export function Navbar() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.05] bg-black/20 backdrop-blur-md transition-all duration-300">
-      <Container className="flex h-16 items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-50  flex justify-center px-4 pt-6">
+      <div className="pointer-events-auto flex items-center gap-4 rounded-full border border-white/10 bg-transparent px-4 py-2 backdrop-blur-md shadow-[0_14px_60px_rgba(0,0,0,0.35)]">
         <Link
-          href="#"
+          href="/"
           className={cn(
-            "inline-flex items-center",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(57,255,20,0.35)] focus-visible:ring-offset-2 focus-visible:ring-offset-black transition-transform hover:scale-[1.03] active:scale-[0.97]"
+            "inline-flex items-center justify-center rounded-full px-2 py-1",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
           )}
           aria-label="Home"
         >
-          <CatMark className="size-9 drop-shadow-[0_0_10px_rgba(57,255,20,0.2)]" />
+          {/* <Image src="/public/logo.png" alt="Hero" width={500} height={300} /> */}
+          <Image
+            src="/logo.png"
+            alt="CopyCatt"
+            width={28}
+            height={28}
+            className="rounded-md"
+          />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <div className="mx-1 h-6 w-px bg-white/10" />
+
+        <nav className="flex items-center gap-1">
           {navLinks.map((l) => (
-            <a
+            <Button
               key={l.href}
-              href={l.href}
-              className="text-xs font-medium tracking-[0.02em] text-zinc-400 transition-colors hover:text-zinc-50"
+              asChild
+              variant="ghost"
+              size="sm"
+              className="h-8 rounded-full px-3 text-xs font-medium text-zinc-200 hover:bg-white/10 hover:text-white"
             >
-              {l.label}
-            </a>
+              {l.href.startsWith("/") && !l.isExternal ? (
+                <Link href={l.href}>{l.label}</Link>
+              ) : (
+                <a
+                  href={l.href}
+                  target={l.isExternal ? "_blank" : undefined}
+                  rel={l.isExternal ? "noreferrer" : undefined}
+                >
+                  {l.label}
+                </a>
+              )}
+            </Button>
           ))}
         </nav>
-
-        <div className="flex items-center gap-3">
-          <LimeButton
-            size="sm"
-            className="h-9 rounded-lg px-4 text-xs font-semibold tracking-[-0.01em]"
-            onClick={() => document.querySelector("#waitlist")?.scrollIntoView({ behavior: "smooth" })}
-          >
-            Join Waitlist
-          </LimeButton>
-        </div>
-      </Container>
+      </div>
     </header>
   )
 }
