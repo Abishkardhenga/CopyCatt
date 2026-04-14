@@ -45,7 +45,7 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="  h-screen relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-24"
+      className="relative flex min-h-0 flex-1 flex-col overflow-hidden pt-24 pb-3 sm:pt-28 sm:pb-4"
     >
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.4),rgba(0,0,0,0.8))]" />
 
@@ -77,23 +77,22 @@ export function HeroSection() {
         </div>
       </div>
 
-      <Container className="relative z-10">
-        <div className="mx-auto max-w-4xl flex flex-col items-center text-center">
+      <Container className="relative z-10 flex min-h-0 flex-1 flex-col justify-center">
+        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <FadeIn delayMs={60}>
-            <h1 className="mt-8 text-balance text-5xl font-bold tracking-[-0.04em] text-zinc-50 sm:text-6xl lg:text-[5.5rem] lg:leading-[0.95] drop-shadow-sm">
-              Copy the trade of the
-              <br />
+            <h1 className="mt-2 text-balance text-4xl font-bold tracking-[-0.04em] text-zinc-50 sm:mt-4 sm:text-6xl lg:text-[5.5rem] lg:leading-[0.95] drop-shadow-sm">
+              Copy the trades of the <br />
               <span className="text-zinc-50 mt-4 drop-shadow-[0_0_30px_rgba(255,255,255,0.18)]">
-                1 % of Alpha traders.
+                top 1% alpha traders.
               </span>
             </h1>
           </FadeIn>
 
           <FadeIn delayMs={110}>
-            <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-zinc-300 sm:text-xl">
-               Instantly copy proven alpha traders in real time with
-              clear risk controls built for those who want market exposure
-              without staring at charts all day.
+            <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-zinc-300 sm:mt-6 sm:text-xl">
+              Instantly copy proven alpha traders in real time with clear risk
+              controls built for those who want market exposure without staring
+              at charts all day.
             </p>
           </FadeIn>
 
@@ -101,7 +100,7 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="mt-10 h-12 rounded-xl px-8 text-[15px] font-semibold tracking-wide"
+              className="mt-6 h-12 rounded-xl border border-white/15 bg-zinc-50 px-8 text-[15px] font-semibold tracking-wide text-zinc-950 shadow-[0_10px_40px_rgba(255,255,255,0.12)] transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-white/30 hover:bg-[#b9bec6] hover:shadow-[0_12px_44px_rgba(255,255,255,0.18)] sm:mt-8"
             >
               <a
                 href="https://x.com/copycattdotfun"

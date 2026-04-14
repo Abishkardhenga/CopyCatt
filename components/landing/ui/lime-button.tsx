@@ -11,8 +11,8 @@ export function LimeButton({ className, glow = true, ...props }: LimeButtonProps
   return (
     <Button
       className={cn(
-        "border border-white/10 bg-white text-black hover:bg-zinc-100",
-        glow && "shadow-[0_10px_40px_rgba(255,255,255,0.10)]",
+        "border border-white/15 bg-zinc-50 text-zinc-950 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-white/30 hover:bg-[#b9bec6] hover:shadow-[0_12px_44px_rgba(255,255,255,0.18)]",
+        glow && "shadow-[0_10px_40px_rgba(255,255,255,0.12)]",
         className
       )}
       {...props}

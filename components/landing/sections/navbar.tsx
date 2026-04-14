@@ -31,7 +31,7 @@ export function Navbar() {
         >
           {/* <Image src="/public/logo.png" alt="Hero" width={500} height={300} /> */}
           <Image
-            src="/logo.png"
+            src="/slogo.jpg"
             alt="CopyCatt"
             width={28}
             height={28}
