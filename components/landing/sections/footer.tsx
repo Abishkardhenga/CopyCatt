@@ -2,7 +2,7 @@ import { Container } from "@/components/landing/ui/container"
 
 export function Footer() {
   return (
-    <footer className="border-t border-glass bg-void py-10">
+    <footer className="shrink-0 border-t border-glass bg-void py-4 sm:py-5">
       <Container className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <a
           href="https://x.com/copycattdotfun"
