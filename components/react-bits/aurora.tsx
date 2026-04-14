@@ -199,7 +199,9 @@ export function AuroraBackground({
     window.addEventListener("resize", resize)
 
     const geometry = new Triangle(gl)
-    if ("uv" in geometry.attributes) delete (geometry.attributes as any).uv
+    if ("uv" in geometry.attributes) {
+      delete (geometry.attributes as unknown as { uv?: unknown }).uv
+    }
 
     program = new Program(gl, {
       vertex: VERT,

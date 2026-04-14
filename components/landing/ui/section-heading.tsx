@@ -19,12 +19,12 @@ export function SectionHeading({
     <div className={cn("max-w-2xl", isCentered && "mx-auto text-center")}>
       <div
         className={cn(
-          "inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.20em] text-[var(--copycatt-lime)]",
+          "inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.20em] text-zinc-200",
           isCentered && "justify-center"
         )}
       >
         <span className="uppercase">{eyebrow}</span>
-        <span className="hidden h-px w-10 bg-[var(--copycatt-lime-dim)] sm:inline-block" />
+        <span className="hidden h-px w-10 bg-white/20 sm:inline-block" />
       </div>
       <h2
         className={cn(
