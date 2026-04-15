@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 
 const Prism = dynamic(() => import("@/components/Prism"), { ssr: false })
 
+const WAITLIST_URL = "https://forms.gle/kBjJ4avQdHfmXXbD6"
+
 export function HeroSection() {
   const [prismSizePx, setPrismSizePx] = useState(1080)
   const sectionRef = useRef<HTMLElement | null>(null)
@@ -103,9 +105,9 @@ export function HeroSection() {
               className="mt-6 h-12 rounded-xl border border-white/15 bg-zinc-50 px-8 text-[15px] font-semibold tracking-wide text-zinc-950 shadow-[0_10px_40px_rgba(255,255,255,0.12)] transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-white/30 hover:bg-[#b9bec6] hover:shadow-[0_12px_44px_rgba(255,255,255,0.18)] sm:mt-8"
             >
               <a
-                href="https://x.com/copycattdotfun"
+                href={WAITLIST_URL}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Join Waitlist
               </a>

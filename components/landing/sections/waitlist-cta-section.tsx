@@ -6,13 +6,15 @@ import { Container } from "@/components/landing/ui/container"
 import { FadeIn } from "@/components/landing/ui/fade-in"
 import { LimeButton } from "@/components/landing/ui/lime-button"
 
+const WAITLIST_URL = "https://forms.gle/kBjJ4avQdHfmXXbD6"
+
 export function WaitlistCtaSection() {
   const [email, setEmail] = useState("")
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim()) return
-    setEmail("")
+    if (typeof window === "undefined") return
+    window.open(WAITLIST_URL, "_blank", "noopener,noreferrer")
   }
 
   return (
