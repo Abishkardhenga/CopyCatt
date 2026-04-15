@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CopyCatt.fun — Copy the best. Skip the rest.",
+  title: "CopyCatt.fun ",
   description:
     "CopyCatt.fun is a premium, non-custodial crypto copy trading product: mirror verified top traders in real time with risk control.",
 };
